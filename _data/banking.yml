@@ -119,6 +119,14 @@ websites:
       img: citibank.png
       tfa: No
 
+    - name: Citibank Australia
+      url: https://www.citibank.com.au/
+      img: citibank.png
+      tfa: Yes
+      software: Yes
+      sms: Yes
+      doc: http://www.citibank.com.au/otp/
+
     - name: Citizens Bank
       url: https://www.citizensbank.com
       twitter: citizensbank
@@ -130,6 +138,13 @@ websites:
       twitter: comdirect
       img: comdirect.png
       tfa: No
+
+    - name: Commonwealth Bank of Australia
+      url: https://www.commbank.com.au/
+      img: commbank.png
+      tfa: Yes
+      sms: Yes
+      doc: https://www.commbank.com.au/security-privacy/netcode.html
 
     - name: Discover
       url: https://www.discover.com/
@@ -171,6 +186,15 @@ websites:
       hardware: Yes
       software: Yes
       doc: http://www1.firstdirect.com/1/2/securekey/
+
+    - name: First Republic Bank
+      url: https://www.firstrepublic.com/
+      img: first-republic.png
+      tfa: Yes
+      sms: Yes
+      phone: Yes
+      email: Yes
+      doc: https://www.firstrepublic.com/resource/banking-online-faqs#su10
 
     - name: First Tech Federal Credit Union
       url: https://www.firsttechfed.com/

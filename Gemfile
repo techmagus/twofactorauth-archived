@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-# Freeze to GitHub Pages versions:
-# https://pages.github.com/versions/
-gem 'github-pages', '~> 40'
-gem 'jekyll', '~> 2.4.0'
-gem 'kramdown', '~> 1.9.0'
+# Dependencies are bundled with the github-pages gem
+group :jekyll_plugins do
+  gem 'github-pages'
+  gem 'octopress-minify-html'
+end
 
 group :test do
-  gem 'rake'
-  gem 'fastimage'
+  gem 'json_schemer'
+  gem 'rubocop'
+  gem 'twitter'
 end

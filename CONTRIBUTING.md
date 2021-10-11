@@ -12,7 +12,7 @@ are stored in folders corresponding to each of those entries in their own
 ## Guidelines
 
 1. **Don't break the build**: We have a simple continuous integration system
-   setup with Github Actions. If your pull request doesn't pass, it won't be
+   setup with GitHub Actions. If your pull request doesn't pass, it won't be
    merged. GH Actions will only check your changes after you submit a pull request.
    If you want to test locally, instructions are listed below. Keep reading!
 2. **Use a Nice Icon**: SVG is the preferred format. If possible, please also run the image 
@@ -31,31 +31,17 @@ are stored in folders corresponding to each of those entries in their own
 
 ## Running Locally
 
-It's easy to run everything locally to test it out. Either you can have plain
-[Jekyll][jekyll] installed or you can use [Bundler][bundler] to manage
-everything for you.
-
-### Using Bundler
-
-1. To install Bundler, just run `gem install bundler`.
-2. Install dependencies in the [Gemfile][gemfile], `bundle install`.
-3. Run Jekyll: `bundle exec jekyll serve --watch`. The `--watch` is optional and
-   makes Jekyll watch for file changes.
+There are detailed instructions on installing dependencies and running locally available in the [README][README].
 
 #### Testing with Bundler
 
 There are a number of tests that are run automatically for a GitHub pull request.
-They are listed in `.github/workflows/repository.yml` in the `tests:` block.
+They are listed in `.github/workflows/repository.yml` in the [`tests:` block][tests].
 You can run these manually as well, e.g to test your JSON changes:
 
 ```bash
 $ bundle exec ruby ./tests/validate-json.rb
 ```
-
-### Using Vanilla Jekyll
-
-1. Install Jekyll if you don't already have it: `gem install jekyll`.
-2. Run Jekyll: `jekyll serve --watch`. The `--watch` is again optional.
 
 ## Site Criteria
 
@@ -78,33 +64,13 @@ criteria, simply open an issue and we'll take a look.
 
 ### Excluded Sites
 
-A list for excluded sites has also been created to ensure sites that have been
-removed are not added in the future. The list also contains the reason for
-its removal.
-
-View the complete list in the [EXCLUSION.md file][exclude].
-
-## New Categories
-
-To add a new category, modify the [categories file][categories] and follow the
-template below:
-
-```JSON
-  {
-    "name" : "category-id",
-    "title": "Category Title",
-    "icon": "icon-class"
-  },
-```
-
-The `icon-class` value needs to be chosen from [Font Awesome][font-awesome].
-
-Then you can use the `category-id` as a keyword in the JSON file of your entry.
+A list for excluded sites and categories has also been created with various categories and sites that we have opted not to list on 2fa.directory.
+You should check the list in the [EXCLUSION.md file][exclude] to make sure that your site is eligible before submitting a pull request.
 
 ## New Sites
 
 First and foremost, make sure the new site meets our [definition
-requirements][definitions] of Two Factor Auth.
+requirements][definitions] of two factor authentication.
 
 If you are adding multiple sites to the TwoFactorAuth list, please create a new
 git branch for each website, and submit a separate pull request for each branch.
@@ -119,7 +85,6 @@ the corresponding [subdirectory][entries] as shown in the following example:
 {
   "Site Name": {
     "domain": "site.com",
-    "url": "https://www.site.com",
     "img": "site.com.png",
     "tfa": [
       "sms",
@@ -138,16 +103,16 @@ the corresponding [subdirectory][entries] as shown in the following example:
   }
 }
 ```
-
-The `url` field is optional if the value is `https://` followed by the `domain`.
-The default value for the icon is `<domain>.svg`, but can be overridden by an `img`
+- Keywords must be selected from the values listed in [`categories.json`][categories].
+- The default value for the icon is `<domain>.svg`, but can be overridden by an `img`
 field.
+- If you would like the site's link on 2fa.directory to be different to `https://<domain>`, you can use a `url` field to specify this.
 
 #### Adding a site that _supports_ TFA
 
-If a site does provide TFA, it is strongly recommended that you add the `doc`
-field where public documentation is available. Other fields should be included
-if the website supports them. Any services that are not supported can be excluded.
+Sites that provide TFA can be noted with the `tfa` field and should contain the TFA methods supported.
+If a site does provide TFA, it is strongly recommended that you add the `documentation`
+field where public documentation is available.
 Sites supporting TFA must not have a `contact` property.
 
 The following is an example of a website that _supports_ TFA:
@@ -173,10 +138,15 @@ The following is an example of a website that _supports_ TFA:
 
 #### Adding a site that _does not_ support TFA
 
-If a site does not provide TFA, the `twitter` field should be included if the site uses
-Twitter. Facebook can also be included using the `facebook` field, as well as Email using
-the `email_address` field. If the website does not use the English language, the `lang`
-field should also be included. The fields `tfa` and `doc` can be completely removed.
+If a site does not provide TFA, the `contact` field should be included.
+Inside of this object,
+* The `twitter` field should be included if the site uses Twitter. 
+* Facebook can also be included using the `facebook` field.
+* Email can be included using the `email` field. 
+* The `language` field inside `contact` can be included for websites whose social media pages/communication channels do not use English. The language
+codes should be lowercase [ISO 639-1][iso-lang-wikipedia] codes.
+
+The fields `tfa` and `documentation` are not necessary.
 
 The following is an example of a website that _does not_ support TFA:
 
@@ -196,13 +166,10 @@ The following is an example of a website that _does not_ support TFA:
 }
 ```
 
-The `language` field inside `contact` can be included for non-English websites. The language
-codes should be lowercase [ISO 639-1][iso-lang-wikipedia] codes.
-
 ### Exceptions & Restrictions
 
 If a site requires the user to do something out of the ordinary to set up 2FA or if 2FA is
-only available in specific countries, you can note this on the website.
+only available in specific countries or to specific account types, you can document this using the `notes` field.
 
 ```JSON
 {
@@ -316,32 +283,55 @@ The country codes should be lowercase [ISO 3166-1][iso-country-wikipedia] codes.
 }
 ```
 
+## New Categories
+
+To add a new category, modify the [categories file][categories] and follow the
+template below:
+
+```JSON
+  {
+    "name" : "category-id",
+    "title": "Category Title",
+    "icon": "icon-class"
+  },
+```
+
+The `icon-class` value needs to be chosen from [Font Awesome][font-awesome].
+
+Then you can use the `category-id` as a keyword in the JSON file of your entry.
+
+
 ### Pro Tips
 
 - See Guideline #2 about icons. The SVG file should go in the corresponding
   `img/` folder.
 
 - For the sake of organization and readability, it is appreciated if your site chunk
-  follows the same order as the example above.
+  follows the same order as the example earlier in the document.
 
-- If a site supports TFA, their contact information is not needed and can be left out
-  for cleanliness.
+- If a site supports TFA, their contact information is not needed and must be left out.
 
 ## A Note on Definitions
 
-A lot of people have different ideas of what constitutes Two Factor Auth and
+### Authorization
+
+There are lots of different ideas of what constitutes two factor authentication and
 what doesn't, so it stands to reason that we should clarify a bit. For the
-purposes of this site, Two Factor Auth is defined as any service provided as a
+purposes of this site, two factor authentication is defined as any service provided as a
 redundant layer for account _authentication_. Services that provide
 _authorization_ redundancy are certainly appreciated, but should not be
-considered Two Factor Auth.
+considered two factor authentication.
 
 As an example, a site that prompts you for an authentication token following
-user login would be considered Two Factor Auth. A site that does not prompt you
+user login would be considered two factor authentication. A site that does not prompt you
 for a token upon login, but prompts you for a token when you try to perform a
-sensitive action would not be considered Two Factor Authentication.
+sensitive action would not be considered two factor authentication.
 
 For context, check out the discussion in issue [#242][242].
+
+### Passwordless Authentication
+
+Many sites are now offering passwordless authentication, which replace the password (something you know) with a different factor, such as something you have or are. Examples of this would be sites which allow users to use a U2F key, or a magic link to login, but do not have a second factor available. Since there is still only one factor being used (although it may not be a password), it does not constitute two factor authentication.
 
 [json]: https://www.json.org/
 [entries]: entries/
@@ -352,9 +342,8 @@ For context, check out the discussion in issue [#242][242].
 [authy]: https://authy.com/
 [duo]: https://duo.com/
 [googleauthenticator]: https://github.com/google/google-authenticator
-[jekyll]: https://jekyllrb.com/
-[bundler]: https://bundler.io/
-[gemfile]: /Gemfile
+[README]: https://github.com/2factorauth/twofactorauth#installing-dependencies-hammer_and_wrench
+[tests]: https://github.com/2factorauth/twofactorauth/blob/master/.github/workflows/repository.yml
 [exclude]: /EXCLUSION.md
 [categories]: _data/categories.json
 [font-awesome]: https://fontawesome.com/icons?d=gallery&p=2&m=free

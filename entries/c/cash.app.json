@@ -1,15 +1,17 @@
 {
-  "Square Cash": {
+  "Cash App": {
     "domain": "cash.app",
     "tfa": [
-      "email"
+      "email",
+      "totp"
     ],
     "documentation": "https://cash.app/help/en/en-us/3127",
     "keywords": [
       "payments"
     ],
     "regions": [
-      "us"
+      "us",
+      "gb"
     ]
   }
 }

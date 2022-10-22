@@ -23,8 +23,8 @@ are stored in folders corresponding to each of those entries in their own
    the file to be under 2.5 kB.
 3. **HTTPS links**: All sites that support HTTPS should also be linked with an
    HTTPS address.
-4. **Alexa top 200K**: A new site that is not already listed has to be within the
-   Alexa top 200,000 ranking. You can check the ranking of a site [here][alexa].
+4. **Similarweb top 200K**: A new site that is not already listed has to be within the
+   Similarweb top 200,000 ranking. You can check the ranking of a site [here][similarweb].
 5. **No 2FA providers**: We do not list 2FA providers, such as [Authy][authy], [Duo][duo] or
    [Google Authenticator][googleauthenticator].
 6. **Be Awesome**: You need to be awesome. That is all.
@@ -103,6 +103,7 @@ the corresponding [subdirectory][entries] as shown in the following example:
   }
 }
 ```
+- The domain should point to the main page of the service, not the login page (usually the root domain, not a subdomain).
 - Keywords must be selected from the values listed in [`categories.json`][categories].
 - The default value for the icon is `<domain>.svg`, but can be overridden by an `img`
 field.
@@ -187,9 +188,9 @@ only available in specific countries or to specific account types, you can docum
 }
 ```
 
-### Adding a site that is only available in specific regions
+### Adding a site that is only available or is prevalent in specific regions
 
-If a site (with or without 2FA) is only available in certain countries - for example a
+If a site (with or without 2FA) is only available in certain countries or most users are located in certain countries - for example a
 government site - you can note this with the `regions` field.
 
 ```JSON
@@ -360,7 +361,7 @@ Many sites are now offering passwordless authentication, which replace the passw
 [img]: img/
 [svgo]: https://github.com/svg/svgo
 [tinypng]: https://tinypng.com/
-[alexa]: https://www.alexa.com/siteinfo
+[similarweb]: https://www.similarweb.com/
 [authy]: https://authy.com/
 [duo]: https://duo.com/
 [googleauthenticator]: https://github.com/google/google-authenticator

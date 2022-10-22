@@ -4,6 +4,7 @@
 require 'json'
 require 'fileutils'
 require 'yaml'
+require 'parallel'
 
 data_dir = './_data'
 websites = JSON.parse(File.read("#{data_dir}/all.json"))
@@ -16,12 +17,14 @@ FileUtils.cp_r(git_dir, "#{tmp_dir}/") unless File.exist?("#{tmp_dir}/.git")
 # Region loop
 # rubocop:disable Metrics/BlockLength
 # rubocop:disable Layout/LineLength
-regions.each do |region|
+Parallel.each(-> { regions.pop || Parallel::Stop }) do |region|
   dest_dir = "#{tmp_dir}/#{region['id']}"
-  unless File.exist?(dest_dir)
-    Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
-    files = %w[index.html _includes _layouts _data]
-    FileUtils.cp_r(files, dest_dir)
+  Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
+  files = %w[index.html noscript.html _includes _layouts _data]
+  FileUtils.cp_r(files, dest_dir)
+
+  File.open("#{dest_dir}/_config_region.yml", 'w') do |file|
+    file.write("title: 2FA Directory (#{region['name']})") unless region['id'].eql?('int')
   end
 
   all = {}
@@ -56,7 +59,7 @@ regions.each do |region|
 
   out_dir = "#{Dir.pwd}/_site/#{region['id']}"
   puts "Building #{region['id']}..."
-  puts `bundle exec jekyll build -s #{dest_dir} --config _config.yml -d #{out_dir} --baseurl #{region['id']}`
+  puts `bundle exec jekyll build -s #{dest_dir} --config _config.yml,#{dest_dir}/_config_region.yml -d #{out_dir} --baseurl #{region['id']}`
   puts "#{region['id']} built."
 end
 # rubocop:enable Metrics/BlockLength
